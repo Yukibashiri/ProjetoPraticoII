@@ -6,7 +6,9 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <user-permission android:name="android.permission.INTERNET"/>
+
+    <user-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -40,9 +42,13 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".HeatMapActivity"
+            android:name=".HeatMapFragment"
             android:label="@string/title_activity_heat_map" />
-        <activity android:name=".forgotpasswordActivity"></activity>
+        <activity android:name=".forgotpasswordActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

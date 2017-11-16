@@ -3,7 +3,6 @@ package com.example.mario.projetopratico;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -21,7 +20,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,8 +30,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent avancar = new Intent(LoginActivity.this, HeatMapActivity.class);
+                Intent avancar = new Intent(LoginActivity.this, MainActivity.class);
                 LoginActivity.this.startActivity(avancar);
                 //attemptLogin();
                 //finish();
@@ -134,7 +130,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         txtAcessoSemLogin.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent avancar = new Intent(LoginActivity.this, HeatMapActivity.class);
+                Intent avancar = new Intent(LoginActivity.this, HeatMapFragment.class);
                 LoginActivity.this.startActivity(avancar);
                 //attemptLogin();
                 //finish();

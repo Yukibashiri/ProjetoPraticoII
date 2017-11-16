@@ -1,9 +1,13 @@
 package com.example.mario.projetopratico;
 
+
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.os.Bundle;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -23,18 +27,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class HeatMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class HeatMapFragment extends SupportMapFragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_heat_map);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        //setContentView(R.layout.activity_heat_map);
+       // SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        //        .findFragmentById(R.id.frame_mapa);
+        //mapFragment.getMapAsync(this);
+        getMapAsync(this);
     }
 
     private ArrayList<LatLng> readItems(int resource) throws JSONException {
@@ -58,7 +62,7 @@ public class HeatMapActivity extends FragmentActivity implements OnMapReadyCallb
         try {
             list = readItems(R.raw.focos_de_dengue);
         } catch (JSONException e) {
-            Toast.makeText(this, "Problem reading list of locations.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Problem reading list of locations.", Toast.LENGTH_LONG).show();
         }
 
         // Create a heat map tile provider, passing it the latlngs of the police stations.
@@ -69,23 +73,17 @@ public class HeatMapActivity extends FragmentActivity implements OnMapReadyCallb
         TileOverlay mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
         LatLng gps = new LatLng(-2.490882, -44.250214);
+
         float zoomLevel = 11.0f;
         mMap.addMarker(new MarkerOptions().position(gps).title("Marcador em São Luis"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(-2.553771, -44.254005)).title("Hue"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(gps,zoomLevel));
         addHeatMap();
     }
