@@ -55,6 +55,8 @@ public class HeatMapFragment extends SupportMapFragment implements OnMapReadyCal
         return list;
     }
 
+
+    // Método que preenche com valores estáticos.
     private void addHeatMap() {
         List<LatLng> list = null;
 
@@ -77,8 +79,11 @@ public class HeatMapFragment extends SupportMapFragment implements OnMapReadyCal
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        //mMap.getUiSettings().setMapToolbarEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        // Add a marker in Sydney and move the camera
+
         LatLng gps = new LatLng(-2.490882, -44.250214);
 
         float zoomLevel = 11.0f;
