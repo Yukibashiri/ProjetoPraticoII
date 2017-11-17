@@ -1,6 +1,6 @@
 [
-  {"lat" : -2.488528, "lng" : -44.251906 } ,
-  {"lat" : -2.503036, "lng" : -44.285627 } ,
-  {"lat" : -2.502272, "lng" : -44.283541 } ,
-  {"lat" : -2.498994, "lng" : -44.277991 }
+  {"id" : 1 , "lat" : -2.488528, "lng" : -44.251906, "description" : "Caixa dagua aberta"} ,
+  {"id" : 2 , "lat" : -2.503036, "lng" : -44.285627, "description" : "Pneu" } ,
+  {"id" : 3 , "lat" : -2.502272, "lng" : -44.283541, "description" : "Piscina" } ,
+  {"id" : 4 , "lat" : -2.498994, "lng" : -44.277991, "description" : "Casa do Satanás" }
 ]

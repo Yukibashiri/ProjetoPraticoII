@@ -13,6 +13,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
@@ -25,11 +27,13 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class HeatMapFragment extends SupportMapFragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private HashMap<Integer, Marker> marks = new HashMap<Integer, Marker>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,40 +43,49 @@ public class HeatMapFragment extends SupportMapFragment implements OnMapReadyCal
         //        .findFragmentById(R.id.frame_mapa);
         //mapFragment.getMapAsync(this);
         getMapAsync(this);
+
     }
 
-    private ArrayList<LatLng> readItems(int resource) throws JSONException {
-        ArrayList<LatLng> list = new ArrayList<LatLng>();
+    private void popularMapa(int resource) throws JSONException {
         InputStream inputStream = getResources().openRawResource(resource);
         String json = new Scanner(inputStream).useDelimiter("\\A").next();
         JSONArray array = new JSONArray(json);
         for (int i = 0; i < array.length(); i++) {
+
             JSONObject object = array.getJSONObject(i);
-            double lat = object.getDouble("lat");
-            double lng = object.getDouble("lng");
-            list.add(new LatLng(lat, lng));
+
+            LatLng latLng = new LatLng(object.getDouble("lat"),object.getDouble("lng")) ;
+            //double lng = object.getDouble("lng");
+            int id = object.getInt("id");
+            String description = object.getString("description");
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(description));
+            marks.put(id,marker);
         }
-        return list;
+        //return list;
     }
 
+    private void removerFoco(int chave){
+
+        Marker marker = marks.get(chave);
+        marker.remove();
+        marks.remove(chave);
+    }
 
     // Método que preenche com valores estáticos.
     private void addHeatMap() {
-        List<LatLng> list = null;
+      //  List<LatLng> list = null;
 
         // Get the data: latitude/longitude positions of police stations.
         try {
-            list = readItems(R.raw.focos_de_dengue);
+            popularMapa(R.raw.focos_de_dengue);
         } catch (JSONException e) {
             Toast.makeText(getContext(), "Problem reading list of locations.", Toast.LENGTH_LONG).show();
         }
 
         // Create a heat map tile provider, passing it the latlngs of the police stations.
-        HeatmapTileProvider mProvider = new HeatmapTileProvider.Builder()
-                .data(list)
-                .build();
+        //HeatmapTileProvider mProvider = new HeatmapTileProvider.Builder().build();
         // Add a tile overlay to the map, using the heat map tile provider.
-        TileOverlay mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+        //TileOverlay mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
     }
 
 
@@ -87,7 +100,7 @@ public class HeatMapFragment extends SupportMapFragment implements OnMapReadyCal
         LatLng gps = new LatLng(-2.490882, -44.250214);
 
         float zoomLevel = 11.0f;
-        mMap.addMarker(new MarkerOptions().position(gps).title("Marcador em São Luis"));
+        //mMap.addMarker(new MarkerOptions().position(gps).title("Marcador em São Luis"));
         mMap.addMarker(new MarkerOptions().position(new LatLng(-2.553771, -44.254005)).title("Hue"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(gps,zoomLevel));
         addHeatMap();

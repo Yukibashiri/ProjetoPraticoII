@@ -14,7 +14,8 @@ public class FocoModel {
     private int primary_key;
     private LatLng latlng;
     private int user_id;
-
+    private double Latitude;
+    private double Longitude;
 
 
     private String description;
@@ -135,4 +136,19 @@ public class FocoModel {
         this.primary_key = primary_key;
     }
 
+    public double getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        Latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return Longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        Longitude = longitude;
+    }
 }
