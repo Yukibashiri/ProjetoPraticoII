@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FragmentManager fragmentManager;
-
+    protected static FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +29,12 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_addfoco);
+        fab = (FloatingActionButton) findViewById(R.id.fab_addfoco);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "Carregando...", Snackbar.LENGTH_SHORT)
+                        .setAction("Action",null).show();
             }
         });
 
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity
         String tag = "heatmapfragment";
         transaction.add(R.id.frame_mapa, new HeatMapFragment(), tag);
         transaction.commitAllowingStateLoss();
+
     }
 
     @Override
