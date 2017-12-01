@@ -1,6 +1,7 @@
 package com.example.mario.projetopratico;
 
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -8,9 +9,19 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.os.Bundle;
 import android.view.View;
+
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,9 +39,11 @@ import com.google.maps.android.heatmaps.HeatmapTileProvider;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -45,6 +58,7 @@ public class HeatMapFragment extends SupportMapFragment implements OnMapReadyCal
     private int pk = 4;
     FloatingActionButton fab;
     private int ativo = 0;
+    final static List<String>  listaFocos = Arrays.asList("Pneu com agua","Caixa d'agua aberta","Garrafas","Pscina","Jesus");
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -215,13 +229,54 @@ public class HeatMapFragment extends SupportMapFragment implements OnMapReadyCal
             }
     }
 
+    private void ExibeDialog(final LatLng latLngPonto){
+        final Dialog dialog = new Dialog(getContext());
+
+        dialog.setContentView(R.layout.layout_dialog_foco);
+
+        //define o título do Dialog
+        dialog.setTitle("Busca de cliente:");
+
+        //instancia os objetos que estão no layout customdialog.xml
+        final Button confirmar = (Button) dialog.findViewById(R.id.btn_Confirmar);
+        final Button cancelar = (Button) dialog.findViewById(R.id.btn_Cancelar);
+        //final EditText editText = (EditText) dialog.findViewById(R.id.etValor);
+        final TextView tvMens = (TextView) dialog.findViewById(R.id.etValor);
+        //final AutoCompleteTextView atvTipoFoco = (AutoCompleteTextView) dialog.findViewById(R.id.pontos_foco);
+        final TextView tvTipo = (TextView) dialog.findViewById(R.id.pontos_foco);
+       // ArrayAdapter<String> adapterlistaFocos = new ArrayAdapter<String>(getContext(),R.layout.layout_dialog_foco,listaFocos);
+        //atvTipoFoco.setAdapter(adapterlistaFocos);
+
+        confirmar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                pk++;
+               Marker marker = mMap.addMarker(new MarkerOptions().position(latLngPonto)
+                        .title(tvMens.getText().toString()).snippet(tvTipo.getText().toString()));
+                marks.put(pk,marker);
+
+            //finaliza o dialog
+            dialog.dismiss();
+            }
+        });
+
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            //finaliza o dialog
+                dialog.dismiss();
+            }
+        });
+
+        //exibe na tela o dialog
+    dialog.show();
+        Window window = dialog.getWindow();
+        window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    }
+
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        pk++;
-        Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Foco numero: "+pk).snippet(""+pk));
-        marks.put(pk,marker);
 
+        ExibeDialog(latLng);
 
     }
 }

@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         txtAcessoSemLogin.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent avancar = new Intent(LoginActivity.this, HeatMapFragment.class);
+                Intent avancar = new Intent(LoginActivity.this, MainActivity.class);
                 LoginActivity.this.startActivity(avancar);
                 //attemptLogin();
                 //finish();
